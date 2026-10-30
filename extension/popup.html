@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TRACE — Scam Investigation</title>
+  <link rel="stylesheet" href="popup.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="popup-container">
+    
+    <!-- Top Header -->
+    <header class="popup-header">
+      <div class="logo">
+        <span class="logo-shield">🛡️</span>
+        <span class="logo-text">TRACE</span>
+      </div>
+      <div class="platform-badge" id="platform-badge">
+        <span class="platform-dot"></span>
+        <span id="platform-name">Detecting Tab...</span>
+      </div>
+    </header>
+
+    <!-- Main Ingestion Section -->
+    <main class="popup-main">
+      
+      <!-- Smart Action Area (Active when on Gmail or WhatsApp Web) -->
+      <div class="smart-action-box" id="smart-action-box">
+        <button type="button" class="btn btn-primary btn-block" id="auto-extract-btn">
+          <span class="btn-spinner hidden" id="extract-spinner"></span>
+          <span id="extract-btn-text">⚡ Extract Complete Message</span>
+        </button>
+
+        <button type="button" class="btn btn-secondary btn-block btn-sm" id="extract-selection-btn" style="margin-top: 0.45rem;">
+          <span class="btn-spinner hidden" id="selection-spinner"></span>
+          <span id="selection-btn-text">✂️ Extract Highlighted Selection Only</span>
+        </button>
+
+        <p class="smart-hint" id="smart-hint">Reads the open email or complete chat bubble only when clicked.</p>
+
+        <!-- Live Extraction Telemetry / Debug Box -->
+        <div class="extract-debug-box hidden" id="extract-debug-box" style="margin-top: 0.45rem; font-size: 0.72rem; padding: 0.4rem 0.55rem; background: rgba(30, 41, 59, 0.8); border: 1px solid rgba(148, 163, 184, 0.25); border-radius: 4px; color: #94a3b8; font-family: var(--font-mono); line-height: 1.4;">
+          <div id="debug-target-line" style="color: #38bdf8; font-weight: 600;">🔍 Target: -</div>
+          <div id="debug-stats-line" style="color: #a78bfa; margin-top: 0.2rem;">📊 Length: - | Method: -</div>
+        </div>
+      </div>
+
+      <!-- Manual Input & Paste Drawer (Always available as fallback) -->
+      <div class="manual-section" id="manual-section">
+        <div class="manual-toggle-row">
+          <span class="manual-title">Message Text:</span>
+          <div class="quick-samples">
+            <button type="button" class="sample-btn" data-sample="english">EN</button>
+            <button type="button" class="sample-btn" data-sample="hindi">HI</button>
+            <button type="button" class="sample-btn" data-sample="kannada">KN</button>
+          </div>
+        </div>
+
+        <textarea id="popup-textarea" rows="4" maxlength="10000" placeholder="Paste or type suspicious message here, or use auto-extract above..."></textarea>
+        
+        <div class="action-row">
+          <button type="button" class="btn btn-secondary btn-sm" id="clear-text-btn">Clear</button>
+          <button type="button" class="btn btn-accent btn-sm" id="manual-analyze-btn">
+            <span class="btn-spinner hidden" id="manual-spinner"></span>
+            <span>Analyse Text</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Notification / Error Tip -->
+      <div class="alert-box hidden" id="status-alert"></div>
+
+      <!-- Live Analysis Results Card (Hidden until analysis runs) -->
+      <section class="results-card hidden" id="results-card">
+        
+        <!-- Verdict Header -->
+        <div class="verdict-bar" id="verdict-bar">
+          <div class="verdict-label" id="verdict-label">HIGH RISK</div>
+          <div class="verdict-score" id="verdict-score">Score: 85/100</div>
+        </div>
+
+        <!-- Meta Details -->
+        <div class="result-meta">
+          <span class="meta-tag" id="meta-lang">English</span>
+          <span class="meta-tag" id="meta-source">GMAIL</span>
+          <span class="meta-tag tag-mode" id="meta-mode">AI Contextual</span>
+        </div>
+
+        <!-- Intent Summary -->
+        <div class="result-block">
+          <div class="block-label">Intent Summary:</div>
+          <p class="intent-desc" id="result-intent">Evaluating intent...</p>
+        </div>
+
+        <!-- SCAMCHAIN Match Banner (If connected) -->
+        <div class="scamchain-banner hidden" id="scamchain-banner">
+          <div class="sc-title">🔗 SCAMCHAIN Match Detected</div>
+          <div class="sc-desc" id="sc-desc">Connected across channels by shared technical infrastructure.</div>
+          <div class="sc-evidence-chips" id="sc-evidence-chips"></div>
+        </div>
+
+        <!-- Identifiers -->
+        <div class="result-block">
+          <div class="block-label">Extracted Evidence:</div>
+          <div class="evidence-list" id="evidence-list"></div>
+        </div>
+
+        <!-- Claims -->
+        <div class="result-block">
+          <div class="block-label">Institutional Claims:</div>
+          <div class="claims-list" id="claims-list"></div>
+        </div>
+
+        <!-- Direct Link to Web Dashboard -->
+        <div class="dashboard-link-box">
+          <button type="button" class="btn btn-outline btn-block" id="open-dashboard-btn">
+            📊 View Full SCAMCHAIN Graph on Dashboard
+          </button>
+        </div>
+
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="popup-footer">
+      <span>Connected to local TRACE backend (port 3000)</span>
+    </footer>
+
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
+

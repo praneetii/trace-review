@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TRACE — Digital Trust & Cross-Channel Scam Investigation</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Header / Navigation -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <div class="logo">
+        <span class="logo-shield">🛡️</span>
+        <div class="logo-titles">
+          <div class="logo-title-row">
+            <span class="logo-text">TRACE</span>
+          </div>
+          <span class="logo-sub">DEFENSIVE THREAT INTELLIGENCE</span>
+        </div>
+      </div>
+      
+      <div class="nav-actions">
+        <div class="system-status" id="system-status">
+          <span class="status-dot"></span>
+          <span class="status-label">Checking System...</span>
+        </div>
+        <a href="#investigate-section" class="nav-btn primary-nav-btn">New Investigation</a>
+        <a href="#scamchain-section" class="nav-btn">SCAMCHAIN Explorer</a>
+        <a href="#history-section" class="nav-btn">History</a>
+        <a href="#extension-guide-section" class="nav-btn">Extension Setup</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Layout -->
+  <main class="container main-content">
+    
+    <!-- Hero / Status Banner -->
+    <section class="hero-strip">
+      <div class="hero-text-block">
+        <div class="tag-row">
+          <span class="badge badge-track">CROSS-CHANNEL THREAT INTELLIGENCE</span>
+          <span class="badge badge-green" id="ai-status-badge">AI: Initializing...</span>
+        </div>
+        <h1 class="main-title">Cross-Channel Scam Investigation & Campaign Correlation</h1>
+        <p class="subtitle">
+          Investigate suspicious messages across <strong>Gmail</strong> and <strong>WhatsApp</strong>. TRACE extracts technical evidence, analyzes conversational intent across <strong>English, Hindi, and Kannada</strong>, and links coordinated attacks through <strong>SCAMCHAIN</strong>.
+        </p>
+      </div>
+    </section>
+
+    <!-- Workspace Grid: Input on Left, Live Findings on Right -->
+    <section id="investigate-section" class="workspace-grid">
+      
+      <!-- Left Panel: Input & Quick Demos -->
+      <div class="panel card input-panel">
+        <div class="panel-header">
+          <div class="panel-title-wrap">
+            <span class="panel-icon">📝</span>
+            <h2>Investigate Message</h2>
+          </div>
+          <span class="panel-sub">Manual & Cross-Platform Ingestion</span>
+        </div>
+
+        <!-- Optional Test Message Samples -->
+        <div class="samples-container">
+          <span class="samples-title">Optional Test Messages:</span>
+          <div class="sample-pills">
+            <button type="button" class="sample-pill" data-sample="english">🇬🇧 English: Bank Phish</button>
+            <button type="button" class="sample-pill" data-sample="hindi">🇮🇳 Hindi: Electricity Cut</button>
+            <button type="button" class="sample-pill" data-sample="kannada">🟡 Kannada: KYC Alert</button>
+            <button type="button" class="sample-pill" data-sample="hinglish">🔀 Hinglish: Power Disconnect</button>
+            <button type="button" class="sample-pill" data-sample="legitimate">✅ Legitimate BESCOM</button>
+          </div>
+        </div>
+
+        <!-- Channel / Platform Selector Tabs -->
+        <div class="channel-selector">
+          <label class="channel-option active" data-channel="manual">
+            <input type="radio" name="sourceChannel" value="manual" checked>
+            <span>📝 Manual Input</span>
+          </label>
+          <label class="channel-option" data-channel="gmail">
+            <input type="radio" name="sourceChannel" value="gmail">
+            <span>✉️ Gmail</span>
+          </label>
+          <label class="channel-option" data-channel="whatsapp">
+            <input type="radio" name="sourceChannel" value="whatsapp">
+            <span>💬 WhatsApp</span>
+          </label>
+        </div>
+
+        <!-- Textarea Input -->
+        <div class="form-group">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+            <label for="message-input" class="input-label" style="margin-bottom: 0;">Message Content to Analyze:</label>
+            <span id="char-counter" style="font-size: 0.75rem; color: var(--text-dim); font-family: var(--font-mono);">0 / 10,000</span>
+          </div>
+          <textarea id="message-input" rows="8" maxlength="10000" placeholder="Paste or enter suspicious email, SMS, or WhatsApp message to investigate..."></textarea>
+        </div>
+
+        <!-- Analysis Controls -->
+        <div class="action-bar">
+          <div class="offline-toggle-wrap">
+            <label class="checkbox-label" title="Simulates analysis when offline without using external AI services">
+              <input type="checkbox" id="force-offline-checkbox">
+              <span>Force Offline Deterministic Fallback</span>
+            </label>
+          </div>
+          
+          <div class="btn-group">
+            <button type="button" class="btn btn-secondary" id="clear-btn">Clear</button>
+            <button type="button" class="btn btn-primary" id="analyze-btn">
+              <span class="btn-spinner hidden" id="analyze-spinner"></span>
+              <span class="btn-text">Analyse in TRACE</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Panel: Dynamic Investigation Report -->
+      <div class="panel card results-panel" id="results-panel">
+        <div class="panel-header">
+          <div class="panel-title-wrap">
+            <span class="panel-icon">🔍</span>
+            <h2>Investigation Findings</h2>
+          </div>
+          <div style="display: flex; gap: 0.5rem; align-items: center;">
+            <button type="button" class="btn btn-secondary btn-sm hidden" id="export-report-btn" title="Open printable Incident Report">📄 Export Incident Report</button>
+            <span class="badge" id="report-inv-id">AWAITING INPUT</span>
+          </div>
+        </div>
+
+        <!-- Placeholder when no message has been analyzed yet -->
+        <div class="results-empty" id="results-empty">
+          <div class="empty-icon">🛡️</div>
+          <h3>No Active Investigation</h3>
+          <p>Enter or paste a suspicious message in the input panel and click <strong>"Analyse in TRACE"</strong> to extract technical identifiers, analyze intent, and detect cross-channel scam campaigns.</p>
+        </div>
+
+        <!-- Live Investigation Content (Hidden until analysis runs) -->
+        <div class="results-content hidden" id="results-content">
+          
+          <!-- Top Verdict Card -->
+          <div class="verdict-card" id="verdict-card">
+            <div class="verdict-header">
+              <div class="verdict-badge" id="verdict-badge">HIGH RISK</div>
+              <div class="verdict-score" id="verdict-score">Risk Score: 85/100</div>
+            </div>
+            <div class="provenance-tag" id="provenance-tag">Mode: Deterministic Fallback</div>
+            <div class="disclaimer-banner hidden" id="disclaimer-banner"></div>
+          </div>
+
+          <!-- Intent & Language Summary -->
+          <div class="meta-strip">
+            <div class="meta-item">
+              <span class="meta-label">Detected Language:</span>
+              <span class="meta-value chip chip-lang" id="res-language">English</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Source Platform:</span>
+              <span class="meta-value chip" id="res-source">Manual</span>
+            </div>
+          </div>
+
+          <div class="section-box">
+            <h4 class="box-title">Intent & Conversational Context</h4>
+            <p class="intent-text" id="res-intent">Loading intent summary...</p>
+          </div>
+
+          <!-- SCAMCHAIN Cross-Channel Campaign Alert Banner -->
+          <div class="scamchain-alert hidden" id="scamchain-alert">
+            <div class="scamchain-alert-icon">🔗</div>
+            <div class="scamchain-alert-content">
+              <div class="scamchain-alert-title" id="scamchain-alert-title">SCAMCHAIN Campaign Match Detected!</div>
+              <div class="scamchain-alert-body" id="scamchain-alert-body">Shared technical infrastructure connected across multiple communications.</div>
+              <div class="scamchain-evidence-tags" id="scamchain-evidence-tags"></div>
+            </div>
+          </div>
+
+          <!-- Extracted Identifiers Box -->
+          <div class="section-box">
+            <h4 class="box-title">Exact Technical Identifiers</h4>
+            <div class="identifiers-grid" id="identifiers-grid">
+              <!-- Populated dynamically -->
+            </div>
+          </div>
+
+          <!-- Institutional Claims Box -->
+          <div class="section-box">
+            <h4 class="box-title">Institutional Claims & Verifications</h4>
+            <p class="claims-standard-note">Rule: Claims are only marked Supported or Contradicted when verified reference evidence exists. Otherwise, marked Unverified.</p>
+            <div class="claims-list" id="claims-list">
+              <!-- Populated dynamically -->
+            </div>
+          </div>
+
+          <!-- Behavioral Signals Box -->
+          <div class="section-box">
+            <h4 class="box-title">Suspicious Behavioral Signals</h4>
+            <div class="signals-list" id="signals-list">
+              <!-- Populated dynamically with quotes -->
+            </div>
+          </div>
+
+          <!-- Safe Recommendations Box -->
+          <div class="section-box">
+            <h4 class="box-title">Safe Defensive Recommendations</h4>
+            <ul class="recommendations-list" id="recommendations-list">
+              <!-- Populated dynamically -->
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- SCAMCHAIN Visualizer Section -->
+    <section id="scamchain-section" class="scamchain-section card">
+      <div class="section-header-row">
+        <div>
+          <div class="tag-row">
+            <span class="badge badge-accent">CENTRAL DIFFERENTIATOR</span>
+          </div>
+          <h2 class="section-title">SCAMCHAIN Campaign Visualizer</h2>
+          <p class="section-desc">
+            Evidence-based correlation across Gmail and WhatsApp. Visualizes how isolated communications connect through identical payment identifiers (UPI) and domain infrastructure.
+          </p>
+        </div>
+        <div class="graph-toolbar">
+          <span class="admin-controls-group" id="admin-controls-group" style="display: none;">
+            <button type="button" class="btn btn-secondary btn-sm" id="reset-db-btn" title="Clears local database for a fresh test run">🧹 Reset Database (Clean Test)</button>
+            <button type="button" class="btn btn-secondary btn-sm" id="seed-demo-btn">Reload Demo Campaigns</button>
+          </span>
+          <button type="button" class="btn btn-secondary btn-sm" id="refresh-graph-btn">Refresh Graph</button>
+        </div>
+      </div>
+
+      <!-- Graph Canvas Container -->
+      <div class="graph-wrapper">
+        <canvas id="scamchain-canvas"></canvas>
+        <div class="graph-legend">
+          <div class="legend-item"><span class="legend-dot dot-gmail"></span> Gmail Message</div>
+          <div class="legend-item"><span class="legend-dot dot-wa"></span> WhatsApp Message</div>
+          <div class="legend-item"><span class="legend-dot dot-manual"></span> Manual Message</div>
+          <div class="legend-item"><span class="legend-dot dot-upi"></span> Shared UPI Handle (Strong)</div>
+          <div class="legend-item"><span class="legend-dot dot-domain"></span> Shared Attacker Domain (Strong)</div>
+          <div class="legend-item"><span class="legend-dot dot-platform"></span> Public Platform / Official Domain (Informational)</div>
+        </div>
+        <div class="graph-info-overlay" id="graph-info-overlay">
+          <span>Click on any node in the graph to inspect connected technical evidence.</span>
+        </div>
+      </div>
+
+      <!-- Node Detail Inspector Card (Shows when node is clicked) -->
+      <div class="node-inspector hidden" id="node-inspector">
+        <div class="inspector-header">
+          <h4 id="inspector-title">Selected Node Details</h4>
+          <button type="button" class="close-inspector-btn" id="close-inspector-btn">&times;</button>
+        </div>
+        <div class="inspector-body" id="inspector-body"></div>
+      </div>
+
+      <!-- Phase 7B: SCAMCHAIN Campaign Chronological Timeline -->
+      <div class="campaign-timeline-wrapper" id="campaign-timeline-section">
+        <div class="timeline-header-row">
+          <div>
+            <h3 class="timeline-title">⏱️ Campaign Chronological Timeline</h3>
+            <p class="timeline-desc">
+              Chronological sequence of linked messages across platforms.
+              <strong>Attribution Boundary:</strong> Shared technical identifiers indicate technical infrastructure reuse, not proof of common criminal ownership. Chronological proximity alone does not prove connection.
+            </p>
+          </div>
+          <span class="badge" id="timeline-events-badge">0 Linked Messages</span>
+        </div>
+        <div class="timeline-container" id="timeline-container">
+          <!-- Populated dynamically by renderCampaignTimeline() -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Investigation History Section -->
+    <section id="history-section" class="history-section card">
+      <div class="section-header-row">
+        <div>
+          <h2 class="section-title">Recent Investigation History</h2>
+          <p class="section-desc">Audit log of analyzed communications and their SCAMCHAIN correlation status.</p>
+        </div>
+        <span class="badge" id="history-count">0 Records</span>
+      </div>
+
+      <div class="table-responsive">
+        <table class="history-table">
+          <thead>
+            <tr>
+              <th>Investigation ID</th>
+              <th>Platform</th>
+              <th>Language</th>
+              <th>Risk Level</th>
+              <th>Shared Evidence</th>
+              <th>Timestamp</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="history-tbody">
+            <tr>
+              <td colspan="7" class="table-loading">Loading past investigations...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Chrome Extension Installation Guide Section -->
+    <section id="extension-guide-section" class="extension-guide-section card">
+      <div class="section-header-row">
+        <div>
+          <div class="tag-row">
+            <span class="badge badge-accent">BROWSER EXTENSION</span>
+          </div>
+          <h2 class="section-title">Chrome Extension Installation Guide</h2>
+          <p class="section-desc">Load TRACE into Google Chrome in 3 simple steps to analyze messages directly from Gmail and WhatsApp Web.</p>
+        </div>
+      </div>
+
+      <div class="install-steps-grid">
+        <div class="install-step-card">
+          <div class="step-badge">STEP 1</div>
+          <h3>Open Chrome Extensions</h3>
+          <p>In Google Chrome, navigate to <code>chrome://extensions</code> or click <strong>Menu &gt; Extensions &gt; Manage Extensions</strong>.</p>
+        </div>
+
+        <div class="install-step-card">
+          <div class="step-badge">STEP 2</div>
+          <h3>Enable Developer Mode</h3>
+          <p>Toggle the <strong>Developer mode</strong> switch in the top-right corner of the Chrome Extensions page.</p>
+        </div>
+
+        <div class="install-step-card">
+          <div class="step-badge">STEP 3</div>
+          <h3>Load Unpacked Folder</h3>
+          <p>Click <strong>Load unpacked</strong> and select the <code>extension</code> folder inside this project directory.</p>
+        </div>
+      </div>
+
+      <div class="privacy-callout">
+        <div class="privacy-icon">🔒</div>
+        <div class="privacy-text">
+          <strong>Privacy First Standard:</strong> The TRACE extension requests only <code>activeTab</code> and <code>scripting</code>. It conducts zero continuous monitoring and performs message extraction only when you explicitly click the extension icon and select <strong>"Analyse Message"</strong>.
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div class="footer-left">
+        <strong>TRACE</strong> &bull; Defensive Threat Intelligence &bull; Cross-Channel Scam Investigation & Campaign Correlation
+      </div>
+      <div class="footer-right">
+        Safe local execution &bull; No automated user actions &bull; Preserves original text
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
